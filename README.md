@@ -1,2 +1,7 @@
 # QA
 Clase de QA
+
+E1: Cambiar un ID en la URL (/reservas/1044) siendo la usuaria Andrea devuelve un estado HTTP 200 con los datos de Bruno. Corrección: Implementar control de acceso en el servidor verificando que el usuario del token autenticado sea el dueño del recurso solicitado.
+E3: La respuesta expone el hash MD5 de la contraseña del usuario (se reconoce por los 32 caracteres hexadecimales) y la cookie de sesión no tiene los atributos Secure ni HttpOnly. Corrección: Usar un algoritmo seguro y con sal (como bcrypt o Argon2id), nunca devolver hashes de contraseñas en las respuestas de la API, y configurar las cookies con los atributos Secure e HttpOnly.
+E4: Una comilla simple provoca un error 500 con un mensaje de la base de datos (SQLSTATE), y el payload ' OR '1'='1' -- devuelve un HTTP 200 exponiendo más filas de las permitidas (laboratorios ocultos). Corrección: Utilizar consultas parametrizadas o un ORM en lugar de concatenar datos de entrada directamente en las consultas SQL.
+I12: Existen múltiples hallazgos clasificados como P1 (E4 de inyección SQL, E1 de IDOR, S3 de botón inaccesible, el presupuesto de SRE consumido >100% y el error de fecha O2). La regla de liberación establece explícitamente que la existencia de al menos un hallazgo P1 abierto determina un veredicto de "No-Go"
